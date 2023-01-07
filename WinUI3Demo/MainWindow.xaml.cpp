@@ -22,13 +22,18 @@ namespace winrt::WinUI3Demo::implementation
 
     void MainWindow::txtCelsius_TextChanged(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Controls::TextChangedEventArgs const& e)
     {
+        Freezer f{ m_freezeF };
+        if (m_freezeC)
+        {
+	        return;
+        }
         winrt::hstring text = txtCelsius().Text();
         if (!text.empty() && text != L"-")
         {
             try
             {
                 double celsius = std::stod(text.c_str());
-                double fahrenheit = 32 + 1.8 * celsius;
+                double fahrenheit =  32 + 1.8 * celsius;
                 txtFahrenheit().Text(std::to_wstring(fahrenheit));
             }
             catch (...)
@@ -44,6 +49,11 @@ namespace winrt::WinUI3Demo::implementation
 
     void MainWindow::txtFahrenheit_TextChanged(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Controls::TextChangedEventArgs const& e)
     {
+        if (m_freezeF)
+        {
+            return;
+        }
+        Freezer c{ m_freezeC };
         winrt::hstring text = txtFahrenheit().Text();
         if (!text.empty() && text != L"-")
         {
