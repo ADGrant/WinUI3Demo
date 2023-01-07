@@ -7,6 +7,5 @@ namespace WinUI3Demo
     runtimeclass MainWindow : Microsoft.UI.Xaml.Window
     {
         MainWindow();
-        Int32 MyProperty;
     }
 }

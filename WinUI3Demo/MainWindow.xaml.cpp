@@ -20,18 +20,29 @@ namespace winrt::WinUI3Demo::implementation
         InitializeComponent();
     }
 
-    int32_t MainWindow::MyProperty()
+    void MainWindow::txtCelsius_TextChanged(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Controls::TextChangedEventArgs const& e)
     {
-        throw hresult_not_implemented();
+        winrt::hstring text = txtCelsius().Text();
+        if (!text.empty() && text != L"-")
+        {
+            try
+            {
+                double celsius = std::stod(text.c_str());
+                double fahrenheit = 32 + 1.8 * celsius;
+                txtFahrenheit().Text(std::to_wstring(fahrenheit));
+            }
+            catch (...)
+            {
+                txtFahrenheit().Text(L"");
+            }
+        }
+        else
+        {
+            txtFahrenheit().Text(L"");
+        }
     }
 
-    void MainWindow::MyProperty(int32_t /* value */)
+    void MainWindow::txtFahrenheit_TextChanged(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Controls::TextChangedEventArgs const& e)
     {
-        throw hresult_not_implemented();
-    }
-
-    void MainWindow::myButton_Click(IInspectable const&, RoutedEventArgs const&)
-    {
-        myButton().Content(box_value(L"Clicked"));
     }
 }
