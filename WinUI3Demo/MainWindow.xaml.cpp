@@ -6,6 +6,7 @@
 #if __has_include("MainWindow.g.cpp")
 #include "MainWindow.g.cpp"
 #endif
+#include <microsoft.ui.xaml.window.h>
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
@@ -18,6 +19,11 @@ namespace winrt::WinUI3Demo::implementation
     MainWindow::MainWindow()
     {
         InitializeComponent();
+        auto windowNative{ this->try_as<::IWindowNative>() };
+        winrt::check_bool(windowNative);
+        HWND hWnd{ 0 };
+        windowNative->get_WindowHandle(&hWnd);
+        SetWindowPos(hWnd, 0, 100, 100, 600, 300, SWP_SHOWWINDOW | SWP_NOMOVE);
     }
 
     void MainWindow::txtCelsius_TextChanged(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Controls::TextChangedEventArgs const& e)
